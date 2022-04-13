@@ -2,14 +2,17 @@
 
 #include <TFile.h>
 
-JunoIBDSignal::JunoIBDSignal()
+JunoIBDSignal::JunoIBDSignal(int MO)
 {
+    m_MO = MO;
+
     reactor = new ReactorFlux();
     reactor->LoadCommonInputs();
     det = new JunoDetector();
     det->LoadCommonInputs();
 
     JunoConvCore::Initialize();
+    //JunoConvCore::SetMO(m_MO);
     fVisibleEnergySpectrum = new TF3("fVisibleEnergySpectrum", JunoConvCore::fVisibleSpectrum, 1.8, 15, -1, 1, 0, 12);
 
 
@@ -57,14 +60,14 @@ double JunoIBDSignal::BinnedVisibleEnergySpectrum(double Epmin, double Epmax)
 }
 
 
-void JunoIBDSignal::PredictedVisibleEnergySpectrum()
+TH1D* JunoIBDSignal::PredictedVisibleEnergySpectrum()
 {
     for(int ibin=0; ibin<340; ibin++) {
         cout << ibin << " " << bin_edge[ibin] << " " << bin_edge[ibin+1] << " " << BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) << endl;
         hPredEvisSpec->SetBinContent(ibin+1, BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) / (bin_edge[ibin+1] - bin_edge[ibin]) * 0.02);
     }
+    return hPredEvisSpec;
 }
-
 
 
 

@@ -2,12 +2,12 @@
 
 using namespace std;
 
+int JunoConvCore::m_MO;
 ReactorFlux* JunoConvCore::reactor[N_reactor];
 JunoDetector* JunoConvCore::det;
 
 JunoConvCore::JunoConvCore()
-{
-}
+{;}
 
 
 JunoConvCore::~JunoConvCore()
@@ -33,6 +33,15 @@ void JunoConvCore::Initialize()
     det = new JunoDetector();
     det->LoadCommonInputs();
 }
+
+void JunoConvCore::SetMO(int MO) 
+{
+    for(int i=0; i<N_reactor; i++) {
+        reactor[i] -> SetMO(m_MO);
+    }
+}
+
+
 
 double JunoConvCore::fVisibleSpectrum(double* x, double* p)
 {

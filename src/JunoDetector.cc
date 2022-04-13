@@ -8,9 +8,11 @@ JunoDetector::JunoDetector()
     m_Nproton = 1.43512e33;
     m_effciency = 0.822;
 
-    m_a = 0.0261;
+    // Calibration Paper 
+    m_a = 0.0262;
     m_b = 0.0082;
     m_c = 0.0123;
+
 }
 
 

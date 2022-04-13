@@ -11,13 +11,15 @@
 class JunoIBDSignal
 {
     public:
-        JunoIBDSignal();
+        JunoIBDSignal(int MO);
         ~JunoIBDSignal();
 
     public:
+        void SetMO(int MO)   {m_MO = MO;}
+
         double BinnedNeutrinoEnergySpectrum(double Enu);
         double BinnedVisibleEnergySpectrum(double Epmin, double Epmax);
-        void PredictedVisibleEnergySpectrum();
+        TH1D* PredictedVisibleEnergySpectrum();
 
         void Plot();
 
@@ -33,6 +35,8 @@ class JunoIBDSignal
         double zone_edge[6] = {0.8, 0.94, 7.44, 7.8, 8.2, 12};
         int nbins[5] = {1, 325, 9, 4, 1};
         double bin_edge[341];
+
+        int m_MO;
 
     private:
         TH1D* hPredEvisSpec;

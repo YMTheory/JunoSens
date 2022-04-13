@@ -69,7 +69,7 @@ double ReactorFlux::SurvivalProbability(double Enu)
         slow = (1 - sin2theta13)*(1-sin2theta13) * 4*sin2theta12*(1-sin2theta12) * TMath::Sin(1.27*Deltam212*m_baseline/Enu)*TMath::Sin(1.27*Deltam212*m_baseline/Enu);
     }
     else{
-        cout << "Wrong Mass Ordering Input !!!!!!" << endl;
+        cout << "Wrong Mass Ordering Input !!!!!!" << m_MO << endl;
     }
 
     return 1 - fast - slow;
