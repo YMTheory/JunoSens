@@ -27,7 +27,7 @@ void JunoConvCore::Initialize()
         reactor[i]->LoadCommonInputs();
         reactor[i]->SetBaseline(baseline[i]);
         reactor[i]->SetPower(power[i]);
-        reactor[i]->SetMO(2);
+        reactor[i]->SetMO(1);
     }
 
     det = new JunoDetector();

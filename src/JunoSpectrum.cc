@@ -24,7 +24,8 @@ TH1D* JunoSpectrum::PredictedSpectrum()
 
 TH1D* JunoSpectrum::MeasuredSpectrum()
 {
-    TFile* ff = new TFile("./ToyData/OnlySignalNoStat.root", "read");
+    //TFile* ff = new TFile("./ToyData/OnlySignalNoStat.root", "read");
+    TFile* ff = new TFile("./ToyData/OnlySignal+Stat.root", "read");
     hMea = (TH1D*)ff->Get("OnlySignalStatIO");
     return hMea;
 }
@@ -33,6 +34,8 @@ TH1D* JunoSpectrum::MeasuredSpectrum()
 
 double JunoSpectrum::GetChi2()
 {
+    PredictedSpectrum(); // calculate predicted spectrum each time
+
     double chi2 = 0;
     for (int i=0; i<hMea->GetNbinsX(); i++) {
         if (hPred->GetBinContent(i+1))

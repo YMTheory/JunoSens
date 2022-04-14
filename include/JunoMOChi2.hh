@@ -1,8 +1,7 @@
 #ifndef JunoMOChi2_h
 #define JunoMOChi2_h
 
-#include "JunoIBDSignal.hh"
-#include "JunoBackground.hh"
+#include "JunoSpectrum.hh"
 
 #include <TMinuit.h>
 
@@ -13,7 +12,6 @@ class JunoMOChi2
         ~JunoMOChi2();
 
     public:
-        void LoadData();
         double GetChiSquare( double maxChi2 = 100000 );
         static void SetParameters( double *par );
         static double GetChi2( double maxChi2 = 100000);
@@ -27,7 +25,7 @@ class JunoMOChi2
 
         TMinuit* junoMinuit;
 
-        static JunoIBDSignal* junoIBD;
+        static JunoSpectrum* junoSpec;
 
         static double m_chi2;
         static double m_chi2Min;
