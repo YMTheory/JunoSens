@@ -66,6 +66,8 @@ class ReactorFlux
         TH1D* hSNF;
         TH1D* hNonEq;
 
+        TH1D* hDYBratio;
+
     private:
         double sin2theta12;
         double sin2theta13;

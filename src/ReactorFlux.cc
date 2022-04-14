@@ -43,6 +43,7 @@ ReactorFlux::~ReactorFlux()
     delete hPu241;
     delete hSNF;
     delete hNonEq;
+    delete hDYBratio;
 }
 
 
@@ -56,6 +57,7 @@ void ReactorFlux::LoadCommonInputs()
 
     hSNF = (TH1D*)ff->Get("SNF_FluxRatio");
     hNonEq = (TH1D*)ff->Get("NonEq_FluxRatio");
+    hDYBratio = (TH1D*)ff->Get("DYBFluxBump_ratio");
 }
 
 double ReactorFlux::InitialReactorFlux(double Enu)
@@ -88,7 +90,7 @@ double ReactorFlux::ArrivedReactorFlux(double Enu)
 {
     double mtocm = 100;
     double phir = SurvivalProbability(Enu) / (4*TMath::Pi()*m_baseline*m_baseline*mtocm*mtocm) * InitialReactorFlux(Enu);
-    return phir * (1 + hSNF->Interpolate(Enu) * (1 + alpha_SNF)) + hNonEq->Interpolate(Enu) * (1+alpha_NonEq);
+    return ( phir * (1 + hSNF->Interpolate(Enu) * (1 + alpha_SNF)) + hNonEq->Interpolate(Enu) * (1+alpha_NonEq) ) * hDYBratio->Interpolate(Enu) ;
 }
 
 
