@@ -29,6 +29,9 @@ ReactorFlux::ReactorFlux()
     Deltam322NO = 2.453e-3;
     Deltam322IO = -2.546e-3;
 
+    alpha_SNF = 0;
+    alpha_NonEq = 0;
+
 }
 
 
@@ -38,6 +41,8 @@ ReactorFlux::~ReactorFlux()
     delete hU238;
     delete hPu239;
     delete hPu241;
+    delete hSNF;
+    delete hNonEq;
 }
 
 
@@ -48,6 +53,9 @@ void ReactorFlux::LoadCommonInputs()
     hU238 = (TH1D*)ff->Get("HuberMuellerFlux_U238");
     hPu239 = (TH1D*)ff->Get("HuberMuellerFlux_Pu239");
     hPu241 = (TH1D*)ff->Get("HuberMuellerFlux_Pu241");
+
+    hSNF = (TH1D*)ff->Get("SNF_FluxRatio");
+    hNonEq = (TH1D*)ff->Get("NonEq_FluxRatio");
 }
 
 double ReactorFlux::InitialReactorFlux(double Enu)
@@ -79,7 +87,8 @@ double ReactorFlux::SurvivalProbability(double Enu)
 double ReactorFlux::ArrivedReactorFlux(double Enu)
 {
     double mtocm = 100;
-    return SurvivalProbability(Enu) / (4*TMath::Pi()*m_baseline*m_baseline*mtocm*mtocm) * InitialReactorFlux(Enu);
+    double phir = SurvivalProbability(Enu) / (4*TMath::Pi()*m_baseline*m_baseline*mtocm*mtocm) * InitialReactorFlux(Enu);
+    return phir * (1 + hSNF->Interpolate(Enu) * (1 + alpha_SNF)) + hNonEq->Interpolate(Enu) * (1+alpha_NonEq);
 }
 
 

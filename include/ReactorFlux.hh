@@ -24,6 +24,11 @@ class ReactorFlux
         double GetTime()                   {return m_time;}
         void SetMO(int mo)                 {m_MO = mo;}
         double GetMO()                     {return m_MO;}
+
+        void SetAlphaSNF(double snf)       {alpha_SNF = snf;}
+        double GetAlphaSNF()               {return alpha_SNF;}
+        void SetAlphaNonEq(double noneq)   {alpha_NonEq = noneq;}
+        double GetAlphaNonEq()             {return alpha_NonEq;}
     
         void   LoadCommonInputs();
         double InitialReactorFlux(double Enu);
@@ -53,6 +58,13 @@ class ReactorFlux
         TH1D* hPu239;
         TH1D* hPu241;
 
+        double fSNF;
+        double alpha_SNF;
+        double fNonEq;
+        double alpha_NonEq;
+
+        TH1D* hSNF;
+        TH1D* hNonEq;
 
     private:
         double sin2theta12;
