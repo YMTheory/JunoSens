@@ -1,4 +1,5 @@
 #include "JunoDetector.hh"
+#include "JunoPullTerms.hh"
 
 #include <TMath.h>
 #include <TFile.h>
@@ -17,7 +18,16 @@ JunoDetector::JunoDetector()
 
 
 JunoDetector::~JunoDetector()
-{}
+{
+    delete hNLnominal;
+    delete hNL0;
+    delete hNL1;
+    delete hNL2;
+    delete hNL3;
+    delete hIBDtotXsec;
+    delete fIBDdiffXsec;
+    delete fEpositron;
+}
 
 
 void JunoDetector::LoadCommonInputs()
@@ -25,7 +35,11 @@ void JunoDetector::LoadCommonInputs()
     TFile* ff = new TFile("JUNOInputs2021_05_28.root", "read");
     fIBDdiffXsec = (TF2*)ff->Get("dsigma_dcos_Enu_cos_DYB");
     fEpositron   = (TF2*)ff->Get("Epositron_Enu_cos_DYB");
-    hNL          = (TH1D*)ff->Get("positronScintNL");
+    hNLnominal   = (TH1D*)ff->Get("positronScintNL");
+    hNL0         = (TH1D*)ff->Get("positronScintNLpull0");
+    hNL1         = (TH1D*)ff->Get("positronScintNLpull1");
+    hNL2         = (TH1D*)ff->Get("positronScintNLpull2");
+    hNL3         = (TH1D*)ff->Get("positronScintNLpull3");
     hIBDtotXsec  = (TH1D*)ff->Get("IBDXsec_VogelBeacom_DYB");
 }
 
@@ -50,7 +64,8 @@ double JunoDetector::IBDtotXsec(double Enu)
 
 double JunoDetector::Nonlinearity(double Edep)
 {
-    return Edep * hNL->Interpolate(Edep);
+    return Edep * hNLnominal->Interpolate(Edep);
+    //return Edep * ( hNLnominal->Interpolate(Edep) + JunoPullTerms::alpha_l0*(hNL0->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l1*(hNL1->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l2*(hNL2->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l3*(hNL3->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) );
 }
 
 

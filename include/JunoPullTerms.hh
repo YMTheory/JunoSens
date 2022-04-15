@@ -15,10 +15,10 @@ class JunoPullTerms
         static double alpha_ea;
         static double alpha_eb;
         static double alpha_ec;
+        static double alpha_l0;
         static double alpha_l1;
         static double alpha_l2;
         static double alpha_l3;
-        static double alpha_l4;
         static double alpha_SNF;
         static double alpha_NonEq;
         static double alpha_Acc;

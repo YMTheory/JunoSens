@@ -50,7 +50,11 @@ class JunoDetector
         TF2* fIBDdiffXsec;
         TF2* fEpositron;
 
-        TH1D* hNL;
+        TH1D* hNLnominal;
+        TH1D* hNL0;
+        TH1D* hNL1;
+        TH1D* hNL2;
+        TH1D* hNL3;
         TH1D* hIBDtotXsec;
 };
 
