@@ -25,11 +25,6 @@ class ReactorFlux
         void SetMO(int mo)                 {m_MO = mo;}
         double GetMO()                     {return m_MO;}
 
-        void SetAlphaSNF(double snf)       {alpha_SNF = snf;}
-        double GetAlphaSNF()               {return alpha_SNF;}
-        void SetAlphaNonEq(double noneq)   {alpha_NonEq = noneq;}
-        double GetAlphaNonEq()             {return alpha_NonEq;}
-    
         void   LoadCommonInputs();
         double InitialReactorFlux(double Enu);
         double SurvivalProbability(double Enu);
@@ -59,14 +54,14 @@ class ReactorFlux
         TH1D* hPu241;
 
         double fSNF;
-        double alpha_SNF;
         double fNonEq;
-        double alpha_NonEq;
 
         TH1D* hSNF;
         TH1D* hNonEq;
 
         TH1D* hDYBratio;
+
+        TH1D* hBin2BinError;
 
     private:
         double sin2theta12;

@@ -1,4 +1,5 @@
 #include "ReactorFlux.hh"
+#include "JunoPullTerms.hh"
 
 #include <iostream>
 #include <TFile.h>
@@ -29,9 +30,6 @@ ReactorFlux::ReactorFlux()
     Deltam322NO = 2.453e-3;
     Deltam322IO = -2.546e-3;
 
-    alpha_SNF = 0;
-    alpha_NonEq = 0;
-
 }
 
 
@@ -44,6 +42,7 @@ ReactorFlux::~ReactorFlux()
     delete hSNF;
     delete hNonEq;
     delete hDYBratio;
+    delete hBin2BinError;
 }
 
 
@@ -58,6 +57,8 @@ void ReactorFlux::LoadCommonInputs()
     hSNF = (TH1D*)ff->Get("SNF_FluxRatio");
     hNonEq = (TH1D*)ff->Get("NonEq_FluxRatio");
     hDYBratio = (TH1D*)ff->Get("DYBFluxBump_ratio");
+
+    hBin2BinError = (TH1D*)ff->Get("YBUncertainty");    // JUNO YB b2b uncertainties
 }
 
 double ReactorFlux::InitialReactorFlux(double Enu)
@@ -90,7 +91,7 @@ double ReactorFlux::ArrivedReactorFlux(double Enu)
 {
     double mtocm = 100;
     double phir = SurvivalProbability(Enu) / (4*TMath::Pi()*m_baseline*m_baseline*mtocm*mtocm) * InitialReactorFlux(Enu);
-    return ( phir * (1 + hSNF->Interpolate(Enu) * (1 + alpha_SNF)) + hNonEq->Interpolate(Enu) * (1+alpha_NonEq) ) * hDYBratio->Interpolate(Enu) ;
+    return ( phir * (1 + hSNF->Interpolate(Enu) * (1 + JunoPullTerms::alpha_SNF)) + hNonEq->Interpolate(Enu) * (1+JunoPullTerms::alpha_NonEq) ) * hDYBratio->Interpolate(Enu) ;
 }
 
 

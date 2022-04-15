@@ -38,6 +38,10 @@ double JunoSpectrum::GetChi2()
 
     double chi2 = 0;
     for (int i=0; i<hMea->GetNbinsX(); i++) {
+        
+        double Mi = hMea->GetBinContent(i+1);
+        double Ti = hPred->GetBinContent(i+1);
+        
         if (hPred->GetBinContent(i+1))
             chi2 += (hMea->GetBinContent(i+1) - hPred->GetBinContent(i+1)) * (hMea->GetBinContent(i+1) - hPred->GetBinContent(i+1)) / hPred->GetBinContent(i+1);
         else
