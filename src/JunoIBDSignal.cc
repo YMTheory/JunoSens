@@ -6,14 +6,13 @@ JunoIBDSignal::JunoIBDSignal(int MO)
 {
     m_MO = MO;
 
-    reactor = new ReactorFlux();
-    reactor->LoadCommonInputs();
+    //reactor = new ReactorFlux();
+    //reactor->LoadCommonInputs();
     det = new JunoDetector();
     det->LoadCommonInputs();
 
     JunoConvCore::Initialize();
-    //JunoConvCore::SetMO(m_MO);
-    fVisibleEnergySpectrum = new TF3("fVisibleEnergySpectrum", JunoConvCore::fVisibleSpectrum, 1.8, 15, -1, 1, 0, 12);
+    fVisibleEnergySpectrum = new TF3("fVisibleEnergySpectrum", JunoConvCore::fVisibleSpectrum, 1.8, 15, -1, 1, 0, 12, 1);
 
 
     // binning strategy :
@@ -28,43 +27,66 @@ JunoIBDSignal::JunoIBDSignal(int MO)
     bin_edge[340] = zone_edge[5];
 
     hPredEvisSpec = new TH1D("hPredEvisSpec", "Predicted visible energy spectrum", 340, bin_edge);
+
+    hWeight = new TH2D("hWeight", "ith reactor ratio in jth bin", 340, 0, 340, 10, 0, 10);
 }
 
 
 JunoIBDSignal::~JunoIBDSignal()
 {
-    delete reactor;
+    //delete reactor;
     delete det;
+    delete fVisibleEnergySpectrum;
 }
 
 
-double JunoIBDSignal::BinnedNeutrinoEnergySpectrum(double Enu)
+//double JunoIBDSignal::BinnedNeutrinoEnergySpectrum(double Enu)
+//{
+//    double arrivedNu = reactor->ArrivedReactorFlux(Enu);
+//    double nproton = det->GetNproton();
+//    double eff = det->GetEfficiency();
+//    double IBDXsec = det->IBDtotXsec(Enu);
+//    
+//    return arrivedNu * IBDXsec * nproton * eff;
+//
+//}
+
+
+void JunoIBDSignal::CalculateReactorBinRatio()
 {
-    double arrivedNu = reactor->ArrivedReactorFlux(Enu);
-    double nproton = det->GetNproton();
-    double eff = det->GetEfficiency();
-    double IBDXsec = det->IBDtotXsec(Enu);
-    
-    return arrivedNu * IBDXsec * nproton * eff;
-
+    double reactorFlux[10];
+    for(int ibin=0; ibin<340; ibin++) {
+        double totFlux = 0;
+        for( int i=0; i<10; i++) {
+            reactorFlux[i] = BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1], i);
+            totFlux += reactorFlux[i];
+        } 
+        for( int i=0; i<10; i++) {
+            hWeight->SetBinContent(ibin+1, i+1, reactorFlux[i]/totFlux);
+        } 
+    }
 }
 
 
-double JunoIBDSignal::BinnedVisibleEnergySpectrum(double Epmin, double Epmax)
+
+double JunoIBDSignal::BinnedVisibleEnergySpectrum(double Epmin, double Epmax, int reactorNo)
 {
     double sigma = det->Resolution(Epmax);
     double Enumin = Epmin - 5*sigma + 0.8;
     double Enumax = Epmax + 5*sigma + 0.8;
+    fVisibleEnergySpectrum->SetParameter(0, reactorNo);
     return fVisibleEnergySpectrum->Integral(Enumin, Enumax, -1, 1, Epmin, Epmax, 1.e-6);
 
 }
 
 
+
+
 TH1D* JunoIBDSignal::PredictedVisibleEnergySpectrum()
 {
     for(int ibin=0; ibin<340; ibin++) {
-        cout << ibin << " " << bin_edge[ibin] << " " << bin_edge[ibin+1] << " " << BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) << endl;
-        hPredEvisSpec->SetBinContent(ibin+1, BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) / (bin_edge[ibin+1] - bin_edge[ibin]) * 0.02);
+        //cout << ibin << " " << bin_edge[ibin] << " " << bin_edge[ibin+1] << " " << BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) << endl;
+        hPredEvisSpec->SetBinContent(ibin+1, BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1], 10) / (bin_edge[ibin+1] - bin_edge[ibin]) * 0.02);
     }
     return hPredEvisSpec;
 }

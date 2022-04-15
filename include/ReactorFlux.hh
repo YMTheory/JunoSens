@@ -17,7 +17,7 @@ class ReactorFlux
         void SetName(TString name)         {m_name = name;}
         TString GetName()                  {return m_name;}
         void SetBaseline(double baseline)  {m_baseline = baseline;}
-        double GetBasline()                {return m_baseline;} 
+        double GetBaseline()                {return m_baseline;} 
         void SetPower(double power)        {m_power = power;}
         double GetPower()                  {return m_power;}
         void SetTime(double time)          {m_time = time;} 

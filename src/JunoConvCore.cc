@@ -15,10 +15,6 @@ JunoConvCore::~JunoConvCore()
 
 void JunoConvCore::Initialize()
 {
-    //reactor = new ReactorFlux();
-    //reactor->LoadCommonInputs();
-    //reactor->SetMO(1);
-
     double baseline[N_reactor] = {52740, 52820, 52410, 52490, 52110, 52190, 52770, 52640, 215000, 265000};
     double power[N_reactor] = {2.9e9, 2.9e9, 2.9e9, 2.9e9, 2.9e9, 2.9e9, 4.6e9, 4.6e9, 17.4e9, 17.4e9}; 
 
@@ -27,19 +23,13 @@ void JunoConvCore::Initialize()
         reactor[i]->LoadCommonInputs();
         reactor[i]->SetBaseline(baseline[i]);
         reactor[i]->SetPower(power[i]);
-        reactor[i]->SetMO(1);
+        reactor[i]->SetMO(2);
     }
 
     det = new JunoDetector();
     det->LoadCommonInputs();
 }
 
-void JunoConvCore::SetMO(int MO) 
-{
-    for(int i=0; i<N_reactor; i++) {
-        reactor[i] -> SetMO(m_MO);
-    }
-}
 
 
 
@@ -57,12 +47,21 @@ double JunoConvCore::fVisibleSpectrum(double* x, double* p)
     //cout << "IBDdiffXsec : " << det->IBDdiffXsec(Enu, costheta) << endl;
     //cout << "DetectorResponse : " << det->DetectorResponse(Enu, costheta, Ep) << endl;
     //cout << "----------------------------------------------------" << endl;
-    
-    double arrviedNuFlux = 0;
-    for(int i=0; i<N_reactor; i++) {
-        arrviedNuFlux += reactor[i]->ArrivedReactorFlux(Enu);
-    }
 
+    double arrviedNuFlux = 0;
+
+    int no = p[0];
+
+    if (p[0] == 10) {
+        for(int i=0; i<N_reactor; i++) {
+            arrviedNuFlux += reactor[i]->ArrivedReactorFlux(Enu);
+        }
+    }
+    
+    else
+        arrviedNuFlux = reactor[no]->ArrivedReactorFlux(Enu);
+
+    
     return arrviedNuFlux * det->IBDdiffXsec(Enu, costheta) * det->GetNproton() * det->GetEfficiency() * det->DetectorResponse(Enu, costheta, Ep);
 
 }

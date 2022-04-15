@@ -14,8 +14,6 @@ class JunoConvCore
         static void Initialize();
         static double fVisibleSpectrum(double* x, double* p);
 
-        static void SetMO(int MO);
-
     private:
         static int m_MO;
 

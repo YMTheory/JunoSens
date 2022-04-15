@@ -7,6 +7,7 @@
 
 #include <TF3.h>
 #include <TH1D.h>
+#include <TH2D.h>
 
 class JunoIBDSignal
 {
@@ -17,14 +18,15 @@ class JunoIBDSignal
     public:
         void SetMO(int MO)   {m_MO = MO;}
 
-        double BinnedNeutrinoEnergySpectrum(double Enu);
-        double BinnedVisibleEnergySpectrum(double Epmin, double Epmax);
+        //double BinnedNeutrinoEnergySpectrum(double Enu);
+        double BinnedVisibleEnergySpectrum(double Epmin, double Epmax, int reactorNo);
+        void CalculateReactorBinRatio();
         TH1D* PredictedVisibleEnergySpectrum();
 
         void Plot();
 
     private:
-        ReactorFlux* reactor;
+        //ReactorFlux* reactor;
         JunoDetector* det;
 
     private:
@@ -40,6 +42,7 @@ class JunoIBDSignal
 
     private:
         TH1D* hPredEvisSpec;
+        TH2D* hWeight;
 
 
 };
