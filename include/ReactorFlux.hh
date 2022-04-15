@@ -61,7 +61,6 @@ class ReactorFlux
 
         TH1D* hDYBratio;
 
-        TH1D* hBin2BinError;
 
     private:
         double sin2theta12;

@@ -1,6 +1,8 @@
 #ifndef JunoPullTerms_h
 #define JunoPullTerms_h
 
+#include <TH1D.h>
+
 class JunoPullTerms
 {
     public:
@@ -37,10 +39,10 @@ class JunoPullTerms
         static double sigma_ea;
         static double sigma_eb;
         static double sigma_ec;
+        static double sigma_l0;
         static double sigma_l1;
         static double sigma_l2;
         static double sigma_l3;
-        static double sigma_l4;
         static double sigma_SNF;
         static double sigma_NonEq;
         static double sigma_Acc;
@@ -51,6 +53,13 @@ class JunoPullTerms
         static double sigma_AlphaN;
         static double sigma_FN;
 
+
+    private:
+        static TH1D* hBin2BinError;
+
+    public:
+        static void LoadCommonInputs();
+        static double GetBin2BinError(double Evis)   {return hBin2BinError->Interpolate(Evis);}
 
 };
 

@@ -84,6 +84,8 @@ double JunoIBDSignal::BinnedVisibleEnergySpectrum(double Epmin, double Epmax, in
 
 TH1D* JunoIBDSignal::PredictedVisibleEnergySpectrum()
 {
+    CalculateReactorBinRatio();
+
     for(int ibin=0; ibin<340; ibin++) {
         //cout << ibin << " " << bin_edge[ibin] << " " << bin_edge[ibin+1] << " " << BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1]) << endl;
         hPredEvisSpec->SetBinContent(ibin+1, BinnedVisibleEnergySpectrum(bin_edge[ibin], bin_edge[ibin+1], 10) / (bin_edge[ibin+1] - bin_edge[ibin]) * 0.02);

@@ -42,7 +42,6 @@ ReactorFlux::~ReactorFlux()
     delete hSNF;
     delete hNonEq;
     delete hDYBratio;
-    delete hBin2BinError;
 }
 
 
@@ -58,7 +57,6 @@ void ReactorFlux::LoadCommonInputs()
     hNonEq = (TH1D*)ff->Get("NonEq_FluxRatio");
     hDYBratio = (TH1D*)ff->Get("DYBFluxBump_ratio");
 
-    hBin2BinError = (TH1D*)ff->Get("YBUncertainty");    // JUNO YB b2b uncertainties
 }
 
 double ReactorFlux::InitialReactorFlux(double Enu)

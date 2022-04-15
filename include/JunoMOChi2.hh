@@ -30,6 +30,8 @@ class JunoMOChi2
         static double m_chi2;
         static double m_chi2Min;
         static int m_nParameter;
+        static double m_bestFit[20];
+        static double m_bestFitError[20];
 
 };
 

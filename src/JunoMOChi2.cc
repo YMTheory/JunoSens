@@ -1,4 +1,5 @@
 #include "JunoMOChi2.hh"
+#include "JunoPullTerms.hh"
 
 #include <TH1D.h>
 #include <TFile.h>
@@ -7,6 +8,8 @@
 double JunoMOChi2::m_chi2;
 double JunoMOChi2::m_chi2Min;
 int    JunoMOChi2::m_nParameter;
+double JunoMOChi2::m_bestFit[20];
+double JunoMOChi2::m_bestFitError[20];
 
 JunoSpectrum* JunoMOChi2::junoSpec;
 
@@ -26,6 +29,7 @@ JunoMOChi2::~JunoMOChi2()
 double JunoMOChi2::GetChi2(double maxChi2)
 {
     double chi2 = junoSpec->GetChi2();
+    cout << ">>>>>>>>>>>>>>>> Current chi2 = " << chi2 << endl;
     if (chi2 > maxChi2)
         return maxChi2;
     else
@@ -41,7 +45,92 @@ void JunoMOChi2::ChisqFCN(Int_t &npar, Double_t *grad, Double_t &fval, Double_t 
 }
 
 
-void JunoMOChi2::SetParameters(double* par){}
+void JunoMOChi2::SetParameters(double* par){
+    JunoPullTerms::alpha_C = par[0];
+    JunoPullTerms::alpha_r = par[1];
+    JunoPullTerms::alpha_D = par[2];
+    JunoPullTerms::alpha_l0 = par[3];
+    JunoPullTerms::alpha_l1 = par[4];
+    JunoPullTerms::alpha_l2 = par[5];
+    JunoPullTerms::alpha_l3 = par[6];
+    JunoPullTerms::alpha_ea = par[7];
+    JunoPullTerms::alpha_eb = par[8];
+    JunoPullTerms::alpha_ec = par[9];
+    JunoPullTerms::alpha_SNF = par[10];
+    JunoPullTerms::alpha_NonEq = par[11];
+}
+
+
+double JunoMOChi2::GetChiSquare(double maxChi2)
+{
+    junoMinuit = new TMinuit();
+    junoMinuit->SetFCN(ChisqFCN);
+    junoMinuit->SetPrintLevel(1);
+
+    double arglist[10];
+    int ierrflag = 0;
+
+    int iPar = 0;
+    junoMinuit->mnexcm("CLEAR", arglist, 0, ierrflag);
+
+    junoMinuit->mnparm(iPar, "alpha_C",     0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r",     0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_D",     0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_l0",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_l1",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_l2",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_l3",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_ea",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_eb",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_ec",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_SNF",   0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_NonEq", 0, 0.001, -1, 1, ierrflag); iPar++;
+
+
+    // Minimization strategy
+    junoMinuit->SetErrorDef(1);
+    arglist[0]=2;
+    junoMinuit->mnexcm("SET STR",arglist,1,ierrflag);
+
+    arglist[0] = 5000; //maxCalls
+    arglist[1] = 0.01; // tolerance
+    junoMinuit->mnexcm("MIGrad", arglist, 1, ierrflag);
+
+    junoMinuit->fCstatu.Data();
+
+    double min, edm, errdef;
+    int nvpar, nparx, icstat;
+    junoMinuit->mnstat(min, edm, errdef, nvpar, nparx, icstat);
+
+    m_nParameter = junoMinuit->GetNumPars();
+	for(int i=0; i<m_nParameter; i++)
+	{
+	    junoMinuit->GetParameter(i, m_bestFit[i], m_bestFitError[i]);
+	}
+
+
+    cout << " ====================== " << endl;
+    cout << "    minChi2: " << min << " with nDataBin = " << 340 << " and nPar = " << m_nParameter << endl;
+    cout << " ====================== " << endl;
+
+    for(int i=0; i<m_nParameter; i++) {
+        cout << m_bestFit[i]  << " " ;
+    }
+    cout << endl;
+    for(int i=0; i<m_nParameter; i++) {
+        cout << m_bestFitError[i]  << " " ;
+    }
+    cout << endl;
+    
+    delete junoMinuit;
+    return min;
+
+
+
+
+}
+
+
 
 
 

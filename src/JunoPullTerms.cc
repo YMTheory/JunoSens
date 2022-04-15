@@ -1,5 +1,6 @@
 #include "JunoPullTerms.hh"
 
+#include <TFile.h>
 
 double JunoPullTerms::alpha_C = 0;
 double JunoPullTerms::alpha_D = 0;
@@ -29,10 +30,10 @@ double JunoPullTerms::sigma_ME = 0.06;
 double JunoPullTerms::sigma_ea = 0.008;
 double JunoPullTerms::sigma_eb = 0.012;
 double JunoPullTerms::sigma_ec = 0.033;
+double JunoPullTerms::sigma_l0 = 0.005;
 double JunoPullTerms::sigma_l1 = 0.005;
 double JunoPullTerms::sigma_l2 = 0.005;
 double JunoPullTerms::sigma_l3 = 0.005;
-double JunoPullTerms::sigma_l4 = 0.005;
 double JunoPullTerms::sigma_SNF = 0.3;
 double JunoPullTerms::sigma_NonEq = 0.3;
 double JunoPullTerms::sigma_Acc = 0.01;
@@ -43,9 +44,17 @@ double JunoPullTerms::sigma_Geo = 0.3;
 double JunoPullTerms::sigma_AlphaN = 0.5;
 double JunoPullTerms::sigma_FN = 1;
 
+TH1D* JunoPullTerms::hBin2BinError;
 
 JunoPullTerms::JunoPullTerms()
 {}
 
 JunoPullTerms::~JunoPullTerms()
 {;}
+
+void JunoPullTerms::LoadCommonInputs()
+{
+    TFile* ff = new TFile("JUNOInputs2022_01_06.root", "read");
+    hBin2BinError = (TH1D*)ff->Get("YBUncertainty");
+    
+}

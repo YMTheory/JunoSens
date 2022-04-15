@@ -21,6 +21,7 @@ class JunoIBDSignal
         //double BinnedNeutrinoEnergySpectrum(double Enu);
         double BinnedVisibleEnergySpectrum(double Epmin, double Epmax, int reactorNo);
         void CalculateReactorBinRatio();
+        double GetWeight(int ibin, int iReactor) {return hWeight->GetBinContent(ibin+1, iReactor+1); }
         TH1D* PredictedVisibleEnergySpectrum();
 
         void Plot();
