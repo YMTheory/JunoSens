@@ -71,7 +71,11 @@ double JunoDetector::Nonlinearity(double Edep)
 
 double JunoDetector::Resolution(double Evis)
 {
-    return TMath::Sqrt(m_a*m_a/Evis + m_b*m_b + m_c*m_c/Evis/Evis) * Evis;
+    double a = m_a * (1 + JunoPullTerms::alpha_ea);
+    double b = m_b * (1 + JunoPullTerms::alpha_eb);
+    double c = m_c * (1 + JunoPullTerms::alpha_ec);
+
+    return TMath::Sqrt(a*a/Evis + b*b + c*c/Evis/Evis) * Evis;
 }
 
 
