@@ -1,26 +1,26 @@
 #include "JunoPullTerms.hh"
 
 
-double JunoPullTerms::alpha_C;
-double JunoPullTerms::alpha_D;
-double JunoPullTerms::alpha_r;
-double JunoPullTerms::alpha_ME;
-double JunoPullTerms::alpha_ea;
-double JunoPullTerms::alpha_eb;
-double JunoPullTerms::alpha_ec;
-double JunoPullTerms::alpha_l1;
-double JunoPullTerms::alpha_l2;
-double JunoPullTerms::alpha_l3;
-double JunoPullTerms::alpha_l4;
-double JunoPullTerms::alpha_SNF;
-double JunoPullTerms::alpha_NonEq;
-double JunoPullTerms::alpha_Acc;
-double JunoPullTerms::alpha_Li9He8;
-double JunoPullTerms::alpha_Atm;
-double JunoPullTerms::alpha_other;
-double JunoPullTerms::alpha_Geo;
-double JunoPullTerms::alpha_AlphaN;
-double JunoPullTerms::alpha_FN;
+double JunoPullTerms::alpha_C = 0;
+double JunoPullTerms::alpha_D = 0;
+double JunoPullTerms::alpha_r = 0;
+double JunoPullTerms::alpha_ME = 0;
+double JunoPullTerms::alpha_ea = 0;
+double JunoPullTerms::alpha_eb = 0;
+double JunoPullTerms::alpha_ec = 0;
+double JunoPullTerms::alpha_l1 = 0;
+double JunoPullTerms::alpha_l2 = 0;
+double JunoPullTerms::alpha_l3 = 0;
+double JunoPullTerms::alpha_l4 = 0;
+double JunoPullTerms::alpha_SNF = 0;
+double JunoPullTerms::alpha_NonEq = 0;
+double JunoPullTerms::alpha_Acc = 0;
+double JunoPullTerms::alpha_Li9He8 = 0;
+double JunoPullTerms::alpha_Atm = 0;
+double JunoPullTerms::alpha_other = 0;
+double JunoPullTerms::alpha_Geo = 0;
+double JunoPullTerms::alpha_AlphaN = 0;
+double JunoPullTerms::alpha_FN = 0;
 
 double JunoPullTerms::sigma_C = 0.02;
 double JunoPullTerms::sigma_D = 0.01;
