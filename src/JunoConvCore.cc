@@ -13,8 +13,9 @@ JunoConvCore::JunoConvCore()
 JunoConvCore::~JunoConvCore()
 {;}
 
-void JunoConvCore::Initialize()
+void JunoConvCore::Initialize(int MO)
 {
+    m_MO = MO;
     double baseline[N_reactor] = {52740, 52820, 52410, 52490, 52110, 52190, 52770, 52640, 215000, 265000};
     double power[N_reactor] = {2.9e9, 2.9e9, 2.9e9, 2.9e9, 2.9e9, 2.9e9, 4.6e9, 4.6e9, 17.4e9, 17.4e9}; 
 
@@ -23,7 +24,7 @@ void JunoConvCore::Initialize()
         reactor[i]->LoadCommonInputs();
         reactor[i]->SetBaseline(baseline[i]);
         reactor[i]->SetPower(power[i]);
-        reactor[i]->SetMO(1);
+        reactor[i]->SetMO(m_MO);
     }
 
     det = new JunoDetector();

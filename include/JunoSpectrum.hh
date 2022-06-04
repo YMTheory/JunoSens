@@ -9,7 +9,7 @@
 class JunoSpectrum
 {
     public:
-        JunoSpectrum();
+        JunoSpectrum(int dataMO, int predMO);
         ~JunoSpectrum();
 
     
@@ -21,6 +21,15 @@ class JunoSpectrum
 
     private:
         JunoIBDSignal* junoIBD;
+
+        int m_data_MO;
+        int m_pred_MO;
+
+    public:
+        int GetDataMO()         { return m_data_MO;}
+        void SetDataMO(int val) { m_data_MO = val; }
+        int GetPredMO()         { return m_pred_MO;}
+        void SetPredMO(int val) { m_pred_MO = val; }
 
 
     private:

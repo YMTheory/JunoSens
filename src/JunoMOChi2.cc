@@ -16,7 +16,7 @@ JunoSpectrum* JunoMOChi2::junoSpec;
 
 JunoMOChi2::JunoMOChi2()
 {
-    junoSpec = new JunoSpectrum();
+    junoSpec = new JunoSpectrum(2, 1);
     junoSpec->MeasuredSpectrum();
 }
 

@@ -3,9 +3,12 @@
 
 #include <TFile.h>
 
-JunoSpectrum::JunoSpectrum()
+JunoSpectrum::JunoSpectrum(int dataMO, int predMO)
 {
-    junoIBD = new JunoIBDSignal(2);
+    m_data_MO = dataMO;
+    m_pred_MO = predMO;
+
+    junoIBD = new JunoIBDSignal(predMO);
     JunoBackground::LoadCommonInputs();
     JunoBackground::CalculateBackground();
 
@@ -29,7 +32,11 @@ TH1D* JunoSpectrum::MeasuredSpectrum()
 {
     //TFile* ff = new TFile("./ToyData/OnlySignalNoStat.root", "read");
     TFile* ff = new TFile("./ToyData/OnlySignalNoStat.root", "read");
-    hMea = (TH1D*)ff->Get("OnlySignalStatNO");
+    if (m_data_MO == 1)
+        hMea = (TH1D*)ff->Get("OnlySignalStatNO");
+    if (m_data_MO = 2)
+        hMea = (TH1D*)ff->Get("OnlySignalStatIO");
+
     return hMea;
 }
 
@@ -53,9 +60,11 @@ double JunoSpectrum::GetChi2()
         }
 
         double sig1 = (Mi - Ti) * (1 + JunoPullTerms::alpha_C + wa_r * JunoPullTerms::alpha_D);
-        double sig2 = Ti + (Ti * JunoPullTerms::GetBin2BinError(Evis)) * (Ti * JunoPullTerms::GetBin2BinError(Evis));
-        
+        //double sig2 = Ti + (Ti * JunoPullTerms::GetBin2BinError(Evis)) * (Ti * JunoPullTerms::GetBin2BinError(Evis));
+        double sig2 = Ti;
+
         chi2 += sig1*sig1/sig2;
+        //cout << i << " " << Evis << " " << Mi << " " << Ti << " " << sig1 << " " << sig2 << " " << chi2 << endl;
 
         // Pull Terms ...
 

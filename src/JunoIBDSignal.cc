@@ -11,7 +11,7 @@ JunoIBDSignal::JunoIBDSignal(int MO)
     det = new JunoDetector();
     det->LoadCommonInputs();
 
-    JunoConvCore::Initialize();
+    JunoConvCore::Initialize(m_MO);
     fVisibleEnergySpectrum = new TF3("fVisibleEnergySpectrum", JunoConvCore::fVisibleSpectrum, 1.8, 15, -1, 1, 0, 12, 1);
 
 
