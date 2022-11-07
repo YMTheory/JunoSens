@@ -14,20 +14,25 @@ class ReactorFlux
         ~ReactorFlux();
 
     public:
-        void SetName(TString name)         {m_name = name;}
-        TString GetName()                  {return m_name;}
-        void SetBaseline(double baseline)  {m_baseline = baseline;}
+        void SetName(TString name)          {m_name = name;}
+        TString GetName()                   {return m_name;}
+        void SetBaseline(double baseline)   {m_baseline = baseline;}
         double GetBaseline()                {return m_baseline;} 
-        void SetPower(double power)        {m_power = power;}
-        double GetPower()                  {return m_power;}
-        void SetTime(double time)          {m_time = time;} 
-        double GetTime()                   {return m_time;}
-        void SetMO(int mo)                 {m_MO = mo;}
-        double GetMO()                     {return m_MO;}
+        void SetPower(double power)         {m_power = power;}
+        double GetPower()                   {return m_power;}
+        void SetTime(double time)           {m_time = time;} 
+        double GetTime()                    {return m_time;}
+        void SetDutyCycle(double cycle)     {m_duty_cycle = cycle;}
+        double GetDutyCycle()               {return m_duty_cycle;}
+        void SetDensity(double rho)         {m_rho = rho;}
+        double GetDensity()                 { return m_rho;}
+        void SetMO(int mo)                  {m_MO = mo;}
+        double GetMO()                      {return m_MO;}
 
         void   LoadCommonInputs();
         double InitialReactorFlux(double Enu);
         double SurvivalProbability(double Enu);
+        double SurvivalProbability_matter(double Enu);
         double ArrivedReactorFlux(double Enu);
 
     
@@ -36,6 +41,7 @@ class ReactorFlux
         double m_baseline;
         double m_power;
         double m_time;
+        double m_duty_cycle;
         double m_MO;
 
     private:
@@ -47,6 +53,11 @@ class ReactorFlux
         double eU238;
         double ePu239;
         double ePu241;
+
+
+    private:
+        double m_rho;
+
 
         TH1D* hU235;
         TH1D* hU238;

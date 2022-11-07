@@ -6,6 +6,7 @@
 #include "TGraph.h"
 
 #include "JunoMOChi2.hh"
+#include "JunoSpectrum.hh"
 
 using namespace std;
 

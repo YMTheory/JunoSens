@@ -19,6 +19,9 @@ class JunoSpectrum
 
         double GetChi2();
 
+    public:
+        TH1F* Loadb2bUncertaintyTAO();
+
     private:
         JunoIBDSignal* junoIBD;
 
@@ -35,6 +38,11 @@ class JunoSpectrum
     private:
         TH1D* hPred;
         TH1D* hMea;
+
+        TH1F* hb2bTAO;
+        TH1D* hb2bModel;
+        TH1D* hb2bDYB;
+        TH1D* hb2bYB;
 
 
 };

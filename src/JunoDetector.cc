@@ -7,7 +7,7 @@
 JunoDetector::JunoDetector()
 {
     m_Nproton = 1.43512e33;
-    m_effciency = 0.822;
+    m_effciency = 0.82;
 
     // Calibration Paper 
     m_a = 0.0262;
@@ -32,7 +32,7 @@ JunoDetector::~JunoDetector()
 
 void JunoDetector::LoadCommonInputs()
 {
-    TFile* ff = new TFile("JUNOInputs2021_05_28.root", "read");
+    TFile* ff = new TFile("JUNOInputs2022_01_06.root", "read");
     fIBDdiffXsec = (TF2*)ff->Get("dsigma_dcos_Enu_cos_DYB");
     fEpositron   = (TF2*)ff->Get("Epositron_Enu_cos_DYB");
     hNLnominal   = (TH1D*)ff->Get("positronScintNL");
@@ -64,8 +64,8 @@ double JunoDetector::IBDtotXsec(double Enu)
 
 double JunoDetector::Nonlinearity(double Edep)
 {
-    return Edep * hNLnominal->Interpolate(Edep);
-    //return Edep * ( hNLnominal->Interpolate(Edep) + JunoPullTerms::alpha_l0*(hNL0->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l1*(hNL1->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l2*(hNL2->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l3*(hNL3->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) );
+    //return Edep * hNLnominal->Interpolate(Edep);
+    return Edep * ( hNLnominal->Interpolate(Edep) + JunoPullTerms::alpha_l0*(hNL0->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l1*(hNL1->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l2*(hNL2->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) + JunoPullTerms::alpha_l3*(hNL3->Interpolate(Edep) - hNLnominal->Interpolate(Edep)) );
 }
 
 

@@ -16,8 +16,9 @@ JunoSpectrum* JunoMOChi2::junoSpec;
 
 JunoMOChi2::JunoMOChi2()
 {
-    junoSpec = new JunoSpectrum(2, 1);
+    junoSpec = new JunoSpectrum(1, 2);
     junoSpec->MeasuredSpectrum();
+    junoSpec->Loadb2bUncertaintyTAO();
 }
 
 JunoMOChi2::~JunoMOChi2()
@@ -47,17 +48,27 @@ void JunoMOChi2::ChisqFCN(Int_t &npar, Double_t *grad, Double_t &fval, Double_t 
 
 void JunoMOChi2::SetParameters(double* par){
     JunoPullTerms::alpha_C = par[0];
-    JunoPullTerms::alpha_r = par[1];
-    JunoPullTerms::alpha_D = par[2];
-    JunoPullTerms::alpha_l0 = par[3];
-    JunoPullTerms::alpha_l1 = par[4];
-    JunoPullTerms::alpha_l2 = par[5];
-    JunoPullTerms::alpha_l3 = par[6];
-    JunoPullTerms::alpha_ea = par[7];
-    JunoPullTerms::alpha_eb = par[8];
-    JunoPullTerms::alpha_ec = par[9];
-    JunoPullTerms::alpha_SNF = par[10];
-    JunoPullTerms::alpha_NonEq = par[11];
+    JunoPullTerms::alpha_r0 = par[1];
+    JunoPullTerms::alpha_r1 = par[2];
+    JunoPullTerms::alpha_r2 = par[3];
+    JunoPullTerms::alpha_r3 = par[4];
+    JunoPullTerms::alpha_r4 = par[5];
+    JunoPullTerms::alpha_r5 = par[6];
+    JunoPullTerms::alpha_r6 = par[7];
+    JunoPullTerms::alpha_r7 = par[8];
+    JunoPullTerms::alpha_r8 = par[9];
+    JunoPullTerms::alpha_r9 = par[10];
+    JunoPullTerms::alpha_D = par[11];
+    JunoPullTerms::alpha_l0 = par[12];
+    JunoPullTerms::alpha_l1 = par[13];
+    JunoPullTerms::alpha_l2 = par[14];
+    JunoPullTerms::alpha_l3 = par[15];
+    JunoPullTerms::alpha_ea = par[16];
+    JunoPullTerms::alpha_eb = par[17];
+    JunoPullTerms::alpha_ec = par[18];
+    JunoPullTerms::alpha_SNF = par[19];
+    JunoPullTerms::alpha_NonEq = par[20];
+    JunoPullTerms::alpha_rho = par[21];
 }
 
 
@@ -74,7 +85,16 @@ double JunoMOChi2::GetChiSquare(double maxChi2)
     junoMinuit->mnexcm("CLEAR", arglist, 0, ierrflag);
 
     junoMinuit->mnparm(iPar, "alpha_C",     0, 0.001, -1, 1, ierrflag); iPar++;
-    junoMinuit->mnparm(iPar, "alpha_r",     0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r0",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r1",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r2",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r3",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r4",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r5",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r6",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r7",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r8",    0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_r9",    0, 0.001, -1, 1, ierrflag); iPar++;
     junoMinuit->mnparm(iPar, "alpha_D",     0, 0.001, -1, 1, ierrflag); iPar++;
     junoMinuit->mnparm(iPar, "alpha_l0",    0, 0.001, -1, 1, ierrflag); iPar++;
     junoMinuit->mnparm(iPar, "alpha_l1",    0, 0.001, -1, 1, ierrflag); iPar++;
@@ -85,6 +105,7 @@ double JunoMOChi2::GetChiSquare(double maxChi2)
     junoMinuit->mnparm(iPar, "alpha_ec",    0, 0.001, -1, 1, ierrflag); iPar++;
     junoMinuit->mnparm(iPar, "alpha_SNF",   0, 0.001, -1, 1, ierrflag); iPar++;
     junoMinuit->mnparm(iPar, "alpha_NonEq", 0, 0.001, -1, 1, ierrflag); iPar++;
+    junoMinuit->mnparm(iPar, "alpha_rho",   0, 0.001, -1, 1, ierrflag); iPar++;
 
 
     // Minimization strategy

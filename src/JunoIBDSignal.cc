@@ -6,6 +6,16 @@ JunoIBDSignal::JunoIBDSignal(int MO)
 {
     m_MO = MO;
 
+    cout << endl;
+    cout << "===============================================" << endl;
+    cout << "Prediction Mass Ordering is " ;
+    if (MO == 1)
+        cout << "Normal Ordering !" << endl;
+    if (MO == 2)
+        cout << "Inverted Ordering !" << endl;
+    cout << "===============================================" << endl;
+    cout << endl;
+
     //reactor = new ReactorFlux();
     //reactor->LoadCommonInputs();
     det = new JunoDetector();
@@ -29,6 +39,8 @@ JunoIBDSignal::JunoIBDSignal(int MO)
     hPredEvisSpec = new TH1D("hPredEvisSpec", "Predicted visible energy spectrum", 340, bin_edge);
 
     hWeight = new TH2D("hWeight", "ith reactor ratio in jth bin", 340, 0, 340, 10, 0, 10);
+
+    cout << "\n";
 }
 
 
@@ -63,7 +75,7 @@ void JunoIBDSignal::CalculateReactorBinRatio()
         } 
         for( int i=0; i<10; i++) {
             hWeight->SetBinContent(ibin+1, i+1, reactorFlux[i]/totFlux);
-        } 
+        }
     }
 }
 
@@ -75,7 +87,7 @@ double JunoIBDSignal::BinnedVisibleEnergySpectrum(double Epmin, double Epmax, in
     double Enumin = Epmin - 5*sigma + 0.8;
     double Enumax = Epmax + 5*sigma + 0.8;
     fVisibleEnergySpectrum->SetParameter(0, reactorNo);
-    return fVisibleEnergySpectrum->Integral(Enumin, Enumax, -1, 1, Epmin, Epmax, 1.e-6);
+    return fVisibleEnergySpectrum->Integral(Enumin, Enumax, -1, 1, Epmin, Epmax, 1.e-3);
 
 }
 
